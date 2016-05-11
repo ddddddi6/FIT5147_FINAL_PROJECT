@@ -13,14 +13,23 @@
 
 </head>
 <body>
+<input id="slider" type="range" min="1990" max="2015" value="1990" step="5" />
+<span id="range">1990</span>
 <div id="map"></div>
 
 <script type="text/javascript">
+    onload = function() {
+        var $ = function(id) { return document.getElementById(id); };
+        $('slider').oninput = function() { $('range').innerHTML = this.value; };
+        $('slider').oninput();
+    };
 //    var map = d3.geomap()
 //            .geofile('d3-geomap-1.0.1/topojson/world/countries.json');
 //
 //    d3.select('#map')
 //            .call(map.draw, map);
+
+
 var format = function(d) {
     d = d / 1000000;
     return d3.format(',.02f')(d) + 'M';
@@ -28,19 +37,58 @@ var format = function(d) {
 
 var map = d3.geomap.choropleth()
         .geofile('d3-geomap-1.0.1/topojson/world/countries.json')
-        .colors(colorbrewer.BuGn[5])
-        .column('Total')
+        .colors(colorbrewer.BuGn[9])
         .format(format)
+        .column("1990")
         .legend(true)
         .unitId('Country Code');
+    var path = d3.geo.path();
 
-d3.csv('Total_2015.csv', function(error, data) {
-    d3.select('#map')
-            .datum(data)
-            .call(map.draw, map);
-});
+    d3.csv('Total_Destination.csv', function(error, data) {
+        d3.select('#map')
+                .datum(data).call(map.draw, map);
+    });
 
-d3.slider().axis(true).min(2000).max(2100).step(5)
+    d3.selectAll("input").on("change", function change() {
+        var value = this.value;
+
+            switch (value) {
+                case "2015":
+                    map.column("2015").update();
+                    d3.select('#map').call(map.update, map);
+                    break;
+                case "2010":
+                    map.column("2010").update();
+                    d3.select('#map').call(map.update, map);
+                    break;
+                case "2005":
+                    map.column("2005").update();
+                    d3.select('#map').call(map.update, map);
+                    break;
+                case "2000":
+                    map.column("2000").update();
+                    d3.select('#map').call(map.update, map);
+                    break;
+                case "1995":
+                    map.column("1995").update();
+                    d3.select('#map').call(map.update, map);
+                    break;
+                case "1990":
+                    map.column("1990").update();
+                    d3.select('#map').call(map.update, map);
+                    break;
+            }
+    });
+
+//    d3.csv('Total_2015.csv', function(error, data) {
+//        d3.select('#map')
+//                .datum(data)
+//                .call(map.draw, map);
+//    });
+
+
+
+//d3.slider().axis(true).min(2000).max(2100).step(5)
 
 </script>
 
