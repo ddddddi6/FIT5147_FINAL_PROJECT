@@ -334,6 +334,7 @@ var Geomap = (function () {
             unitPrefix: 'unit-',
             units: 'units',
             name: null,
+            country: null,
             unitTitle: function unitTitle(d) {
                 return d.properties.name;
             },
@@ -415,7 +416,7 @@ var Geomap = (function () {
                     return 'unit ' + self.properties.unitPrefix + '' + d.id;
                 }).attr('d', self.path).on('mouseup', function(d){
             self.properties.name = d.id;
-            
+            self.properties.country = d.properties.name;
         }).on('mousedown', self.clicked.bind(self)).append('title').text(self.properties.unitTitle);
                 self.update();
                 

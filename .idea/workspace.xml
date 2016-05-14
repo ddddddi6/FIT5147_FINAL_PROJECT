@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="49dd8238-f803-45cc-aa92-d5eff7008dde" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Total_Destination.csv" afterPath="$PROJECT_DIR$/Total_Destination.csv" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/d3-geomap-1.0.1/js/d3.geomap.js" afterPath="$PROJECT_DIR$/d3-geomap-1.0.1/js/d3.geomap.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.html" afterPath="$PROJECT_DIR$/index.html" />
@@ -29,8 +28,8 @@
       <file leaf-file-name="index.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-540">
-              <caret line="85" column="40" selection-start-line="85" selection-start-column="40" selection-end-line="85" selection-end-column="40" />
+            <state relative-caret-position="3030">
+              <caret line="202" column="75" selection-start-line="202" selection-start-column="75" selection-end-line="202" selection-end-column="75" />
               <folding />
             </state>
           </provider>
@@ -204,12 +203,12 @@
       <workItem from="1462754491515" duration="1947000" />
       <workItem from="1462787878336" duration="76000" />
       <workItem from="1462788072848" duration="6316000" />
-      <workItem from="1462940185708" duration="41487000" />
+      <workItem from="1462940185708" duration="46826000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="49826000" />
+    <option name="totallyTimeSpent" value="55165000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="7" y="48" width="1260" height="669" extended-state="0" />
@@ -332,8 +331,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-540">
-          <caret line="85" column="40" selection-start-line="85" selection-start-column="40" selection-end-line="85" selection-end-column="40" />
+        <state relative-caret-position="3030">
+          <caret line="202" column="75" selection-start-line="202" selection-start-column="75" selection-end-line="202" selection-end-column="75" />
           <folding />
         </state>
       </provider>
