@@ -2,19 +2,40 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js" charset="utf-8">
-
-    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js" charset="utf-8"></script>
     <link href="d3-geomap-1.0.1/css/d3.geomap.css" rel="stylesheet">
     <link rel="stylesheet" href="d3.slider.css" />
     <script src="d3-geomap-1.0.1/vendor/d3.geomap.dependencies.min.js"></script>
-    <script src="d3-geomap-1.0.1/js/d3.geomap.min.js"></script>
+    <script src="d3-geomap-1.0.1/js/d3.geomap.js"></script>
     <script src="d3.slider.js"></script>
+
+    <style>
+        .axis {
+            font: 10px sans-serif;
+        }
+
+        .axis path,
+        .axis line {
+            fill: none;
+            stroke: #000;
+            shape-rendering: crispEdges;
+        }
+
+        div.tooltip {
+            position: absolute;
+            text-align: center;
+            background: lightgrey;
+            border: 0px;
+            border-radius: 8px;
+            pointer-events: none;
+        }
+    </style>
 
 </head>
 <body>
 <input id="slider" type="range" min="1990" max="2015" value="1990" step="5" />
 <span id="range">1990</span>
+<div id="barchart"></div>
 <div id="map"></div>
 
 <script type="text/javascript">
@@ -44,9 +65,124 @@ var map = d3.geomap.choropleth()
         .unitId('Country Code');
     var path = d3.geo.path();
 
+//    var self = map;
+//    d3.json(self.properties.geofile, function (error, geo) {
+//        self.geo = geo;
+//        self.svg.append('g').attr('class', 'units zoom').selectAll('path').data(topojson.feature(geo, geo.objects[self.properties.units]).features).enter().append('path').attr('class', function (d) {
+//            return 'unit ' + self.properties.unitPrefix + '' + d.id;
+//        }).attr('d', self.path).on('click', function(d){
+//            var name = d.properties.name;
+//            return document.getElementById('name').innerHTML=name;
+//        }).append('title').text(self.properties.unitTitle);
+//        self.update();
+//    });
+
     d3.csv('Total_Destination.csv', function(error, data) {
         d3.select('#map')
-                .datum(data).call(map.draw, map);
+                .datum(data).call(map.draw, map)
+                .on("click", function (d) {
+                    var name = map.properties.name;
+
+                    if (name != null || name.trim() != "") {
+
+                    var margin = {top: 20, right: 20, bottom: 70, left: 40},
+                            width = 300 - margin.left - margin.right,
+                            height = 400 - margin.top - margin.bottom;
+
+                    var x = d3.scale.ordinal().rangeRoundBands([0, width], .05);
+
+                    var y = d3.scale.linear().range([height, 0]);
+
+                    var xAxis = d3.svg.axis()
+                            .scale(x)
+                            .orient("bottom");
+
+                    var yAxis = d3.svg.axis()
+                            .scale(y)
+                            .orient("left");
+
+                    var svg = d3.select("#barchart").append("svg")
+                            .attr("width", width + margin.left + margin.right)
+                            .attr("height", height + margin.top + margin.bottom)
+                            .append("g")
+                            .attr("transform",
+                                    "translate(" + margin.left + "," + margin.top + ")");
+
+
+                        d3.csv("Total_Destination.csv", function (error, data) {
+
+                            data = data.filter(function (column) {
+                                return column['Country Code'] == name;
+                            })
+
+                            var male = data.map(function (o) {
+                                return o.Male_1990
+                            });
+                            var female = data.map(function (o) {
+                                return o.Female_1990
+                            });
+
+                            //var dataset = [Number(male)/10000, Number(female)/10000];
+                            var label = ["Male", "Female"];
+
+                            var dataset = [{"Gender": "Male", "Value": Number(male) / 10000},
+                                {"Gender": "Female", "Value": Number(female) / 10000}];
+                            dataset.forEach(function (d) {
+                                d.Gender = d.Gender;
+                                d.Value = +d.Value;
+
+                            });
+                            //var dataset = [male, female];
+                            x.domain(dataset.map(function (d) {
+                                return d.Gender;
+                            }));
+                            y.domain([0, d3.max(dataset, function (d) {
+                                return d.Value;
+                            })]);
+                            //y.domain([0, d3.max(data, function(d) { return d3.max([d.Male_1990,d.Female_1990]); })]);
+                            //y.domain([0, d3.max(data, function(d) { return d3.max(d.Male_1990, function(d) { return d.Female_1990; }); })]);
+
+                            svg.append("g")
+                                    .attr("class", "x axis")
+                                    .attr("transform", "translate(0," + height + ")")
+                                    .call(xAxis)
+                                    .selectAll("text")
+                                    .style("text-anchor", "end")
+                                    .attr("dx", "-.8em")
+                                    .attr("dy", "-.55em")
+                                    .attr("transform", "rotate(-90)");
+
+                            svg.append("g")
+                                    .attr("class", "y axis")
+                                    .call(yAxis)
+                                    .append("text")
+                                    .attr("transform", "rotate(-90)")
+                                    .attr("y", 6)
+                                    .attr("dy", ".71em")
+                                    .style("text-anchor", "end")
+                                    .text("Migrant Stock");
+
+                            colors = d3.scale.category10()
+                            svg.selectAll("bar")
+                                    .data(dataset)
+                                    .enter().append("rect")
+                                    .style("fill", function (d, i) {
+                                        return colors(i);
+                                    })
+                                    .attr("x", function (d) {
+                                        return x(d.Gender) + x.rangeBand() / 2.7;
+                                    })
+                                    .attr("width", x.rangeBand() / 4)
+                                    .attr("y", function (d) {
+                                        return y(d.Value);
+                                    })
+                                    .attr("height", function (d) {
+                                        return height - y(d.Value);
+                                    });
+
+                        });
+                    }
+                });
     });
 
     d3.selectAll("input").on("change", function change() {
@@ -89,6 +225,10 @@ var map = d3.geomap.choropleth()
 
 
 //d3.slider().axis(true).min(2000).max(2100).step(5)
+
+
+
+
 
 </script>
 

@@ -333,6 +333,7 @@ var Geomap = (function () {
             unitId: 'iso3',
             unitPrefix: 'unit-',
             units: 'units',
+            name: null,
             unitTitle: function unitTitle(d) {
                 return d.properties.name;
             },
@@ -350,6 +351,7 @@ var Geomap = (function () {
     _createClass(Geomap, [{
         key: 'clicked',
         value: function clicked(d) {
+          
             var _this = this;
 
             var k = 1,
@@ -371,6 +373,8 @@ var Geomap = (function () {
             });
 
             this.svg.selectAll('g.zoom').transition().duration(750).attr('transform', 'translate(' + x0 + ', ' + y0 + ')scale(' + k + ')translate(-' + x + ', -' + y + ')');
+            
+          this.properties.name = null;
         }
     }, {
         key: 'draw',
@@ -406,10 +410,15 @@ var Geomap = (function () {
             // Load and render geo data.
             d3.json(self.properties.geofile, function (error, geo) {
                 self.geo = geo;
+                var dblclick_timer = false;
                 self.svg.append('g').attr('class', 'units zoom').selectAll('path').data(topojson.feature(geo, geo.objects[self.properties.units]).features).enter().append('path').attr('class', function (d) {
                     return 'unit ' + self.properties.unitPrefix + '' + d.id;
-                }).attr('d', self.path).on('click', self.clicked.bind(self)).append('title').text(self.properties.unitTitle);
+                }).attr('d', self.path).on('mouseup', function(d){
+            self.properties.name = d.id;
+            
+        }).on('mousedown', self.clicked.bind(self)).append('title').text(self.properties.unitTitle);
                 self.update();
+                
             });
         }
     }, {
