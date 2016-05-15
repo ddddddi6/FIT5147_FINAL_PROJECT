@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Migrant stock trends</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js" charset="utf-8">
+    </script>
+
+    <style>
+        /********************
+        * TOOLTIP CSS
+        */
+        div.tooltip {
+            position: absolute;
+            text-align: center;
+            width: 100px;
+            height: 28px;
+            padding: 2px;
+            font: 12px sans-serif;
+            background: lightgrey;
+            border: 0px;
+            border-radius: 8px;
+            pointer-events: none;
+        }
+
+        .dropbtn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 16px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .dropbtn:hover, .dropbtn:focus {
+            background-color: #3e8e41;
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            overflow: auto;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        }
+
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown a:hover {background-color: #f1f1f1}
+
+        .show {display:block;}
+
+        body {
+            font: 10px sans-serif;
+        }
+
+        .axis path,
+        .axis line {
+            fill: none;
+            stroke: #000;
+            shape-rendering: crispEdges;
+        }
+
+        .x.axis path {
+            display: none;
+        }
+
+        .line {
+            fill: none;
+            stroke: steelblue;
+            stroke-width: 1.5px;
+        }
+    </style>
+</head>
+
+<body>
+<h1>Number of international migrants by major area of destination</h1>
+<div class="dropdown">
+    <button onclick="myFunction()" class="dropbtn">Menu</button>
+    <div id="myDropdown" class="dropdown-content">
+        <a href=index.html>Destination Map</a>
+        <a href=origin.html>Origin Map</a>
+        <a href=migrant_trends.html>Migrants Trend</a>
+    </div>
+</div>
+<div id="line"></div>
+
+<script type="text/javascript">
+    function myFunction() {
+        document.getElementById("myDropdown").classList.toggle("show");
+    }
+
+    var margin = {top: 20, right: 80, bottom: 30, left: 50},
+            width = 1000 - margin.left - margin.right,
+            height = 500 - margin.top - margin.bottom;
+
+    var x = d3.scale.linear()
+            .range([0, width]);
+
+    var y = d3.scale.linear()
+            .range([height, 0]);
+
+    var color = d3.scale.category10();
+
+    var xAxis = d3.svg.axis()
+            .scale(x)
+            .orient("bottom");
+
+    var yAxis = d3.svg.axis()
+            .scale(y)
+            .orient("left");
+
+    var line = d3.svg.line()
+            .interpolate("monotone")
+            .x(function(d) { return x(d.Year); })
+            .y(function(d) { return y(d.Total); });
+
+    var svg = d3.select("#line").append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+    d3.csv("Area_Destination.csv", function(error, data) {
+        if (error) throw error;
+
+        color.domain(d3.keys(data[0]).filter(function(key) { return key !== "Year"; }));
+
+//        data.forEach(function(d) {
+//            d.Year = d.Year;
+//        });
+
+        var years = color.domain().map(function(name) {
+            return {
+                name: name,
+                values: data.map(function(d) {
+                    return {Year: d.Year, Total: +d[name]};
+                })
+            };
+        });
+
+        x.domain(d3.extent(data, function(d) { return d.Year; }));
+
+        y.domain([
+            d3.min(years, function(c) { return d3.min(c.values, function(v) { return v.Total; }); }),
+            d3.max(years, function(c) { return d3.max(c.values, function(v) { return v.Total; }); })
+        ]);
+
+        svg.append("g")
+                .attr("class", "x axis")
+                .attr("transform", "translate(0," + height + ")")
+                .call(xAxis);
+
+        svg.append("g")
+                .attr("class", "y axis")
+                .call(yAxis)
+                .append("text")
+                .attr("transform", "rotate(-90)")
+                .attr("y", 6)
+                .attr("dy", ".71em")
+                .style("text-anchor", "end")
+                .text("Total");
+
+        var year = svg.selectAll(".year")
+                .data(years)
+                .enter().append("g")
+                .attr("class", "year");
+
+        year.append("path")
+                .attr("class", "line")
+                .attr("d", function(d) { return line(d.values); })
+                .style("stroke", function(d) { return color(d.name); });
+
+        year.append("text")
+                .datum(function(d) { return {name: d.name, value: d.values[d.values.length - 1]}; })
+                .attr("transform", function(d) { return "translate(" + x(d.value.Year) + "," + y(d.value.Total) + ")"; })
+                .attr("x", 3)
+                .attr("dy", ".35em")
+                .text(function(d) { return d.name; });
+    });
+
+</script>
+
+</body>
+</html>

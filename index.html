@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <title>Migrant stock map by destination</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js" charset="utf-8"></script>
     <link href="d3-geomap-1.0.1/css/d3.geomap.css" rel="stylesheet">
     <link rel="stylesheet" href="d3.slider.css" />
@@ -75,8 +76,9 @@
 <div class="dropdown">
     <button onclick="myFunction()" class="dropbtn">Menu</button>
     <div id="myDropdown" class="dropdown-content">
-        <a href=index.html>Destination</a>
-        <a href=origin.html>Origin</a>
+        <a href=index.html>Destination Map</a>
+        <a href=origin.html>Origin Map</a>
+        <a href=migrant_trends.html>Migrants Trend</a>
     </div>
 </div>
 <input id="slider" type="range" min="1990" max="2015" value="1990" step="5" />
@@ -119,7 +121,7 @@ var format = function(d) {
 
 var map = d3.geomap.choropleth()
         .geofile('d3-geomap-1.0.1/topojson/world/countries.json')
-        .colors(colorbrewer.YlOrRd[9])
+        .colors(colorbrewer.YlGnBu[9])
         .format(format)
         .column("1990")
         .legend(true)
@@ -198,9 +200,8 @@ var map = d3.geomap.choropleth()
                                     .call(xAxis)
                                     .selectAll("text")
                                     .style("text-anchor", "end")
-                                    .attr("dx", "-.8em")
-                                    .attr("dy", "-.55em")
-                                    .attr("transform", "rotate(-90)");
+                                    .attr("dx", "1em")
+                                    .attr("dy", "1em");
 
                             svg.append("g")
                                     .attr("class", "y axis")
@@ -218,7 +219,7 @@ var map = d3.geomap.choropleth()
                                     .attr("text-anchor", "middle")
                                     .style("font-size", "14px")
                                     .style("text-decoration", "underline")
-                                    .text(map.properties.country + "(Destination)")
+                                    .text(map.properties.country + " (Destination)")
 
 
 
@@ -247,7 +248,7 @@ var map = d3.geomap.choropleth()
                                     .attr("text-anchor", "middle")
                                     .attr("x", function(d) { return x(d.Gender) + 55; })
                                     .attr("y", function(d) { return y(d.Value); })
-                                    .text(function(d) { return Math.round(d.Value * 100) / 100 + 'M'; });;
+                                    .text(function(d) { return Math.round(d.Value * 1000) / 1000 + 'M'; });;
 
                         });
                     }
