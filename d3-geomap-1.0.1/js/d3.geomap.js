@@ -485,7 +485,7 @@ var Choropleth = (function (_Geomap) {
         value: function update() {
             var self = this;
             self.extent = d3.extent(self.data, self.columnVal.bind(self));
-            self.colorScale = self.properties.valueScale().domain(self.properties.domain || self.extent).range(self.properties.colors);
+            self.colorScale = self.properties.valueScale().domain([0, 46650000] || self.extent).range(self.properties.colors);
 
             // Remove fill styles that may have been set previously.
             self.svg.selectAll('path.unit').style('fill', null);
@@ -579,8 +579,8 @@ var Choropleth = (function (_Geomap) {
             // minimum data value is lower than the first element in the domain
             // draw a less than sign. If the maximum data value is larger than the
             // second domain element, draw a greater than sign.
-            var minDisplay = self.extent[0],
-                maxDisplay = self.extent[1],
+            var minDisplay = 0,
+                maxDisplay = 46650000,
                 addLower = false,
                 addGreater = false;
 

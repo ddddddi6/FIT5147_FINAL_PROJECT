@@ -71,7 +71,7 @@
 
 </head>
 <body>
-<h1>Trends in International Migrant Stock: Migrants by Destination</h1>
+<h1>Trends in International Migrant Stock: Migrants by Origin</h1>
 <div class="dropdown">
     <button onclick="myFunction()" class="dropbtn">Menu</button>
     <div id="myDropdown" class="dropdown-content">
@@ -112,21 +112,21 @@
         $('slider').oninput();
     };
 
-var format = function(d) {
-    d = d / 1000000;
-    return d3.format(',.02f')(d) + 'M';
-}
+    var format = function(d) {
+        d = d / 1000000;
+        return d3.format(',.02f')(d) + 'M';
+    }
 
-var map = d3.geomap.choropleth()
-        .geofile('d3-geomap-1.0.1/topojson/world/countries.json')
-        .colors(colorbrewer.YlOrRd[9])
-        .format(format)
-        .column("1990")
-        .legend(true)
-        .unitId('Country Code');
+    var map = d3.geomap.choropleth()
+            .geofile('d3-geomap-1.0.1/topojson/world/countries.json')
+            .colors(colorbrewer.YlOrRd[9])
+            .format(format)
+            .column("1990")
+            .legend(true)
+            .unitId('Country Code');
     var path = d3.geo.path();
 
-    d3.csv('Total_Destination.csv', function(error, data) {
+    d3.csv('Total_Origin.csv', function(error, data) {
         d3.select('#map')
                 .datum(data).call(map.draw, map)
                 .on("click", function (d) {
@@ -135,31 +135,31 @@ var map = d3.geomap.choropleth()
 
                     if (name != null || name.trim() != "") {
 
-                    var margin = {top: 20, right: 20, bottom: 70, left: 40},
-                            width = 300 - margin.left - margin.right,
-                            height = 430 - margin.top - margin.bottom;
+                        var margin = {top: 20, right: 20, bottom: 70, left: 40},
+                                width = 300 - margin.left - margin.right,
+                                height = 430 - margin.top - margin.bottom;
 
-                    var x = d3.scale.ordinal().rangeRoundBands([0, width], .05);
+                        var x = d3.scale.ordinal().rangeRoundBands([0, width], .05);
 
-                    var y = d3.scale.linear().range([height, 0]);
+                        var y = d3.scale.linear().range([height, 0]);
 
-                    var xAxis = d3.svg.axis()
-                            .scale(x)
-                            .orient("bottom");
+                        var xAxis = d3.svg.axis()
+                                .scale(x)
+                                .orient("bottom");
 
-                    var yAxis = d3.svg.axis()
-                            .scale(y)
-                            .orient("left");
+                        var yAxis = d3.svg.axis()
+                                .scale(y)
+                                .orient("left");
 
-                    var svg = d3.select("#dialog").append("svg")
-                            .attr("width", width + margin.left + margin.right)
-                            .attr("height", height + margin.top + margin.bottom)
-                            .append("g")
-                            .attr("transform",
-                                    "translate(" + margin.left + "," + margin.top + ")");
+                        var svg = d3.select("#dialog").append("svg")
+                                .attr("width", width + margin.left + margin.right)
+                                .attr("height", height + margin.top + margin.bottom)
+                                .append("g")
+                                .attr("transform",
+                                        "translate(" + margin.left + "," + margin.top + ")");
 
 
-                        d3.csv("Total_Destination.csv", function (error, data) {
+                        d3.csv("Total_Origin.csv", function (error, data) {
 
                             data = data.filter(function (column) {
                                 return column['Country Code'] == name;
@@ -218,7 +218,7 @@ var map = d3.geomap.choropleth()
                                     .attr("text-anchor", "middle")
                                     .style("font-size", "14px")
                                     .style("text-decoration", "underline")
-                                    .text(map.properties.country + "(Destination)")
+                                    .text(map.properties.country + "(Origin)")
 
 
 
@@ -261,32 +261,32 @@ var map = d3.geomap.choropleth()
     d3.selectAll("input").on("change", function change() {
         var value = this.value;
 
-            switch (value) {
-                case "2015":
-                    map.column("2015").update();
-                    d3.select('#map').call(map.update, map);
-                    break;
-                case "2010":
-                    map.column("2010").update();
-                    d3.select('#map').call(map.update, map);
-                    break;
-                case "2005":
-                    map.column("2005").update();
-                    d3.select('#map').call(map.update, map);
-                    break;
-                case "2000":
-                    map.column("2000").update();
-                    d3.select('#map').call(map.update, map);
-                    break;
-                case "1995":
-                    map.column("1995").update();
-                    d3.select('#map').call(map.update, map);
-                    break;
-                case "1990":
-                    map.column("1990").update();
-                    d3.select('#map').call(map.update, map);
-                    break;
-            }
+        switch (value) {
+            case "2015":
+                map.column("2015").update();
+                d3.select('#map').call(map.update, map);
+                break;
+            case "2010":
+                map.column("2010").update();
+                d3.select('#map').call(map.update, map);
+                break;
+            case "2005":
+                map.column("2005").update();
+                d3.select('#map').call(map.update, map);
+                break;
+            case "2000":
+                map.column("2000").update();
+                d3.select('#map').call(map.update, map);
+                break;
+            case "1995":
+                map.column("1995").update();
+                d3.select('#map').call(map.update, map);
+                break;
+            case "1990":
+                map.column("1990").update();
+                d3.select('#map').call(map.update, map);
+                break;
+        }
     });
 </script>
 
