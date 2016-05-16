@@ -5,7 +5,6 @@
     <title>Migrant stock map by origin</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js" charset="utf-8"></script>
     <link href="d3-geomap-1.0.1/css/d3.geomap.css" rel="stylesheet">
-    <link rel="stylesheet" href="d3.slider.css" />
     <script src="d3-geomap-1.0.1/vendor/d3.geomap.dependencies.min.js"></script>
     <script src="d3-geomap-1.0.1/js/d3.geomap.js"></script>
     <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
@@ -72,7 +71,7 @@
 
 </head>
 <body>
-<h1>Trends in International Migrant Stock: Migrants by Origin Country or Area</h1>
+<h2>Trends in International Migrant Stock: Migrants by Origin Country or Area</h2>
 <div class="dropdown">
     <button onclick="myFunction()" class="dropbtn">Menu</button>
     <div id="myDropdown" class="dropdown-content">
@@ -151,7 +150,9 @@
 
                         var yAxis = d3.svg.axis()
                                 .scale(y)
-                                .orient("left");
+                                .orient("left")
+                                .tickFormat(d3.format("g"))
+                                .tickSize(-5);
 
                         var svg = d3.select("#dialog").append("svg")
                                 .attr("width", width + margin.left + margin.right)
@@ -248,7 +249,7 @@
                                     .attr("text-anchor", "middle")
                                     .attr("x", function(d) { return x(d.Gender) + 55; })
                                     .attr("y", function(d) { return y(d.Value); })
-                                    .text(function(d) { return Math.round(d.Value * 1000) / 1000 + 'M'; });;
+                                    .text(function(d) { return Math.round(d.Value * 1000) / 1000 + 'M'; });
 
                         });
                     }
