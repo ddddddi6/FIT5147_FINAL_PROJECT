@@ -390,9 +390,9 @@ var Geomap = (function () {
         value: function draw(selection, self) {
             if (!self.properties.width) self.properties.width = selection.node().getBoundingClientRect().width;
 
-            if (!self.properties.height) self.properties.height = self.properties.width / 1.92;
+            if (!self.properties.height) self.properties.height = self.properties.width / 2;
 
-            if (!self.properties.scale) self.properties.scale = self.properties.width / 5.8;
+            if (!self.properties.scale) self.properties.scale = self.properties.width / 6;
 
             if (!self.properties.translate) self.properties.translate = [self.properties.width / 2, self.properties.height / 2];
 

@@ -32,7 +32,7 @@
 
 
         .dropbtn {
-            background-color: #4CAF50;
+            background-color: #2980b9;
             color: white;
             padding: 16px;
             font-size: 16px;
@@ -41,7 +41,7 @@
         }
 
         .dropbtn:hover, .dropbtn:focus {
-            background-color: #3e8e41;
+            background-color: #225ea8;
         }
 
         .dropdown {
@@ -175,9 +175,6 @@ var map = d3.geomap.choropleth()
                                 var r = "Female_" + map.properties.column;
                                 return o[r];
                             });
-
-                            //var dataset = [Number(male)/10000, Number(female)/10000];
-                            var label = ["Male", "Female"];
 
                             var dataset = [{"Gender": "Male", "Value": Number(male)/1000000},
                                 {"Gender": "Female", "Value": Number(female)/1000000}];
