@@ -113,6 +113,8 @@
         $('slider').oninput();
     };
 
+
+
 var format = function(d) {
     d = d / 1000000;
     return d3.format(',.02f')(d) + 'M';
@@ -161,6 +163,9 @@ var map = d3.geomap.choropleth()
                             .attr("transform",
                                     "translate(" + margin.left + "," + margin.top + ")");
 
+                        $( "#dialog" ).dialog({
+                            position: { my: "left top", at: "right top" }
+                        });
 
                         d3.csv("Total_Destination.csv", function (error, data) {
 

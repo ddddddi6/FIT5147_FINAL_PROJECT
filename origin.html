@@ -161,6 +161,9 @@
                                 .attr("transform",
                                         "translate(" + margin.left + "," + margin.top + ")");
 
+                        $( "#dialog" ).dialog({
+                            position: { my: "left top", at: "right top" }
+                        });
 
                         d3.csv("Total_Origin.csv", function (error, data) {
 
