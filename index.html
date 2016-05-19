@@ -231,7 +231,7 @@ var map = d3.geomap.choropleth()
                                         .attr("text-anchor", "middle")
                                         .style("font-size", "14px")
                                         .style("text-decoration", "underline")
-                                        .text(map.properties.country)
+                                        .text(map.properties.country + " (" + map.properties.column + ")")
 
                                 var colors = d3.scale.ordinal()
                                         .range(["#6b486b", "#d0743c"]);

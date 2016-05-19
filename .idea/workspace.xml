@@ -2,11 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="49dd8238-f803-45cc-aa92-d5eff7008dde" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/gender.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Total_Destination.csv" afterPath="$PROJECT_DIR$/Total_Destination.csv" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.html" afterPath="$PROJECT_DIR$/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/migrant_trends.html" afterPath="$PROJECT_DIR$/migrant_trends.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/origin.html" afterPath="$PROJECT_DIR$/origin.html" />
     </list>
     <ignored path="FIT5147_FINAL_PROJECT.iws" />
@@ -31,8 +28,8 @@
       <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="237" column="0" selection-start-line="235" selection-start-column="32" selection-end-line="237" selection-end-column="0" />
+            <state relative-caret-position="375">
+              <caret line="233" column="105" selection-start-line="233" selection-start-column="68" selection-end-line="233" selection-end-column="105" />
               <folding />
             </state>
           </provider>
@@ -41,27 +38,27 @@
       <file leaf-file-name="origin.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/origin.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="203">
-              <caret line="235" column="0" selection-start-line="235" selection-start-column="0" selection-end-line="235" selection-end-column="0" />
+            <state relative-caret-position="2183">
+              <caret line="231" column="105" selection-start-line="231" selection-start-column="105" selection-end-line="231" selection-end-column="105" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="gender.html" pinned="false" current-in-tab="true">
+      <file leaf-file-name="gender.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/gender.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1080">
+            <state relative-caret-position="518">
               <caret line="72" column="3" selection-start-line="72" selection-start-column="3" selection-end-line="72" selection-end-column="3" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="migrant_trends.html" pinned="false" current-in-tab="false">
+      <file leaf-file-name="migrant_trends.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/migrant_trends.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="165">
+            <state relative-caret-position="270">
               <caret line="91" column="23" selection-start-line="91" selection-start-column="23" selection-end-line="91" selection-end-column="23" />
               <folding />
             </state>
@@ -86,9 +83,9 @@
         <option value="$PROJECT_DIR$/Total_Destination.csv" />
         <option value="$PROJECT_DIR$/d3.slider.css" />
         <option value="$PROJECT_DIR$/migrant_trends.html" />
+        <option value="$PROJECT_DIR$/gender.html" />
         <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/origin.html" />
-        <option value="$PROJECT_DIR$/gender.html" />
       </list>
     </option>
   </component>
@@ -129,6 +126,7 @@
     </navigator>
     <panes>
       <pane id="Scratches" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -181,7 +179,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -288,11 +285,12 @@
       <workItem from="1463486286102" duration="291000" />
       <workItem from="1463542961979" duration="47000" />
       <workItem from="1463581095443" duration="10004000" />
+      <workItem from="1463630794108" duration="122000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="85898000" />
+    <option name="totallyTimeSpent" value="86020000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="7" y="48" width="1260" height="669" extended-state="0" />
@@ -695,34 +693,34 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/migrant_trends.html">
+    <entry file="file://$PROJECT_DIR$/gender.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="91" column="23" selection-start-line="91" selection-start-column="23" selection-end-line="91" selection-end-column="23" />
+        <state relative-caret-position="518">
+          <caret line="72" column="3" selection-start-line="72" selection-start-column="3" selection-end-line="72" selection-end-column="3" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="237" column="0" selection-start-line="235" selection-start-column="32" selection-end-line="237" selection-end-column="0" />
+        <state relative-caret-position="375">
+          <caret line="233" column="105" selection-start-line="233" selection-start-column="68" selection-end-line="233" selection-end-column="105" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/origin.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="203">
-          <caret line="235" column="0" selection-start-line="235" selection-start-column="0" selection-end-line="235" selection-end-column="0" />
+        <state relative-caret-position="2183">
+          <caret line="231" column="105" selection-start-line="231" selection-start-column="105" selection-end-line="231" selection-end-column="105" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/gender.html">
+    <entry file="file://$PROJECT_DIR$/migrant_trends.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1080">
-          <caret line="72" column="3" selection-start-line="72" selection-start-column="3" selection-end-line="72" selection-end-column="3" />
+        <state relative-caret-position="270">
+          <caret line="91" column="23" selection-start-line="91" selection-start-column="23" selection-end-line="91" selection-end-column="23" />
           <folding />
         </state>
       </provider>
