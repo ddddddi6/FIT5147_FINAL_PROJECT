@@ -26,7 +26,7 @@
         .ui-dialog.ui-widget-content {
             opacity: .90;
             filter: Alpha(Opacity=90);
-            background: lightgrey;
+            background: #ffffff;
         }
 
 
@@ -78,6 +78,7 @@
         <a href=index.html>Destination Map</a>
         <a href=origin.html>Origin Map</a>
         <a href=migrant_trends.html>Migrants Trend</a>
+        <a href=gender.html>Migrants Comparison By Gender</a>
     </div>
 </div>
 <input id="slider" type="range" min="1990" max="2015" value="1990" step="5" />
@@ -127,7 +128,7 @@
             .unitId('Country Code');
     var path = d3.geo.path();
 
-    d3.csv('Total_Origin.csv', function(error, data) {
+    d3.csv('Total_Destination.csv', function(error, data) {
         d3.select('#map')
                 .datum(data).call(map.draw, map)
                 .on("click", function (d) {
@@ -135,7 +136,6 @@
                     var name = map.properties.name;
 
                     if (name != null || name.trim() != "") {
-
                         var margin = {top: 20, right: 20, bottom: 70, left: 40},
                                 width = 300 - margin.left - margin.right,
                                 height = 430 - margin.top - margin.bottom;
@@ -162,98 +162,111 @@
                                         "translate(" + margin.left + "," + margin.top + ")");
 
                         $( "#dialog" ).dialog({
-                            position: { my: "left top", at: "right top" }
+                            position: { my: "left top", at: "right center" }
                         });
 
                         d3.csv("Total_Origin.csv", function (error, data) {
 
                             data = data.filter(function (column) {
                                 return column['Country Code'] == name;
-                            })
-
-                            var male = data.map(function (o) {
-                                var r = "Male_" + map.properties.column;
-                                return o[r];
                             });
-                            var female = data.map(function (o) {
-                                var r = "Female_" + map.properties.column;
+
+
+                            var migration = data.map(function (o) {
+                                var r = map.properties.column;
                                 return o[r];
                             });
 
-                            //var dataset = [Number(male)/10000, Number(female)/10000];
-                            var label = ["Male", "Female"];
+                            d3.csv("Total_Destination.csv", function (error, data) {
 
-                            var dataset = [{"Gender": "Male", "Value": Number(male)/1000000},
-                                {"Gender": "Female", "Value": Number(female)/1000000}];
-                            dataset.forEach(function (d) {
-                                d.Gender = d.Gender;
-                                d.Value = +d.Value;
+                                data = data.filter(function (column) {
+                                    return column['Country Code'] == name;
+                                });
+
+                                var emigration = data.map(function (o) {
+                                    var r = map.properties.column;
+                                    return o[r];
+                                });
+
+
+                                var dataset = [{"Population": "Emigration", "Value": Number(emigration) / 1000000},
+                                    {"Population": "Migration", "Value": Number(migration) / 1000000}];
+                                dataset.forEach(function (d) {
+                                    d.Population = d.Population;
+                                    d.Value = +d.Value;
+
+                                });
+
+                                x.domain(dataset.map(function (d) {
+                                    return d.Population;
+                                }));
+                                y.domain([0, d3.max(dataset, function (d) {
+                                    return d.Value;
+                                })]);
+
+                                svg.append("g")
+                                        .attr("class", "x axis")
+                                        .attr("transform", "translate(0," + height + ")")
+                                        .call(xAxis)
+                                        .selectAll("text")
+                                        .style("text-anchor", "end")
+                                        .attr("dx", "2.5em")
+                                        .attr("dy", "1em");
+
+                                svg.append("g")
+                                        .attr("class", "y axis")
+                                        .call(yAxis)
+                                        .append("text")
+                                        .attr("transform", "rotate(-90)")
+                                        .attr("y", 6)
+                                        .attr("dy", ".71em")
+                                        .style("text-anchor", "end")
+                                        .text("Migrant Stock(M)");
+
+                                svg.append("text")
+                                        .attr("x", (width / 2))
+                                        .attr("y", 0 - (margin.top / 2))
+                                        .attr("text-anchor", "middle")
+                                        .style("font-size", "14px")
+                                        .style("text-decoration", "underline")
+                                        .text(map.properties.country)
+
+                                var colors = d3.scale.ordinal()
+                                        .range(["#6b486b", "#d0743c"]);
+
+                                svg.selectAll("bar")
+                                        .data(dataset)
+                                        .enter().append("rect")
+                                        .style("fill", function (d, i) {
+                                            return colors(i);
+                                        })
+                                        .attr("x", function (d) {
+                                            return x(d.Population) + x.rangeBand() / 2.7;
+                                        })
+                                        .attr("width", x.rangeBand() / 4)
+                                        .attr("y", function (d) {
+                                            return y(d.Value);
+                                        })
+                                        .attr("height", function (d) {
+                                            return height - y(d.Value);
+                                        });
+
+                                svg.selectAll("bar")
+                                        .data(dataset)
+                                        .enter().append("text")
+                                        .attr("class", "bar")
+                                        .attr("text-anchor", "middle")
+                                        .attr("x", function (d) {
+                                            return x(d.Population) + 55;
+                                        })
+                                        .attr("y", function (d) {
+                                            return y(d.Value);
+                                        })
+                                        .text(function (d) {
+                                            return Math.round(d.Value * 1000) / 1000 + 'M';
+                                        });
 
                             });
-                            //var dataset = [male, female];
-                            x.domain(dataset.map(function (d) {
-                                return d.Gender;
-                            }));
-                            y.domain([0, d3.max(dataset, function (d) {
-                                return d.Value;
-                            })]);
-
-                            svg.append("g")
-                                    .attr("class", "x axis")
-                                    .attr("transform", "translate(0," + height + ")")
-                                    .call(xAxis)
-                                    .selectAll("text")
-                                    .style("text-anchor", "end")
-                                    .attr("dx", "1em")
-                                    .attr("dy", "1em");
-
-                            svg.append("g")
-                                    .attr("class", "y axis")
-                                    .call(yAxis)
-                                    .append("text")
-                                    .attr("transform", "rotate(-90)")
-                                    .attr("y", 6)
-                                    .attr("dy", ".71em")
-                                    .style("text-anchor", "end")
-                                    .text("Migrant Stock(M)");
-
-                            svg.append("text")
-                                    .attr("x", (width / 2))
-                                    .attr("y", 0 - (margin.top / 2))
-                                    .attr("text-anchor", "middle")
-                                    .style("font-size", "14px")
-                                    .style("text-decoration", "underline")
-                                    .text(map.properties.country + " (Origin)")
-
-
-
-                            colors = d3.scale.category10()
-                            svg.selectAll("bar")
-                                    .data(dataset)
-                                    .enter().append("rect")
-                                    .style("fill", function (d, i) {
-                                        return colors(i);
-                                    })
-                                    .attr("x", function (d) {
-                                        return x(d.Gender) + x.rangeBand() / 2.7;
-                                    })
-                                    .attr("width", x.rangeBand() / 4)
-                                    .attr("y", function (d) {
-                                        return y(d.Value);
-                                    })
-                                    .attr("height", function (d) {
-                                        return height - y(d.Value);
-                                    });
-
-                            svg.selectAll("bar")
-                                    .data(dataset)
-                                    .enter().append("text")
-                                    .attr("class", "bar")
-                                    .attr("text-anchor", "middle")
-                                    .attr("x", function(d) { return x(d.Gender) + 55; })
-                                    .attr("y", function(d) { return y(d.Value); })
-                                    .text(function(d) { return Math.round(d.Value * 1000) / 1000 + 'M'; });
-
                         });
                     }
                     $(function() {

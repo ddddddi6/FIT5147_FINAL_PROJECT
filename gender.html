@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Comparison on migrant stock by gender</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js" charset="utf-8">
+    </script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" charset="utf-8"></script>
+
+</head>
+
+<style>
+
+    body {
+        font: 10px sans-serif;
+    }
+
+    .axis path,
+    .axis line {
+        fill: none;
+        stroke: #000;
+        shape-rendering: crispEdges;
+    }
+
+    .bar {
+        fill: steelblue;
+    }
+
+    .x.axis path {
+        display: none;
+    }
+
+    .dropbtn {
+        background-color: #2980b9;
+        color: white;
+        padding: 16px;
+        font-size: 16px;
+        border: none;
+        cursor: pointer;
+    }
+
+    .dropbtn:hover, .dropbtn:focus {
+        background-color: #225ea8;
+    }
+
+    .dropdown {
+        position: relative;
+        display: inline-block;
+    }
+
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f9f9f9;
+        min-width: 160px;
+        overflow: auto;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    }
+
+    .dropdown-content a {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+    }
+
+    .dropdown a:hover {background-color: #f1f1f1}
+
+    .show {display:block;}
+</style>
+
+<body>
+<h1>Comparison on international migrants by gender</h1>
+<div class="dropdown">
+    <button onclick="myFunction()" class="dropbtn">Menu</button>
+    <div id="myDropdown" class="dropdown-content">
+        <a href=index.html>Destination Map</a>
+        <a href=origin.html>Origin Map</a>
+        <a href=migrant_trends.html>Migrants Trend</a>
+        <a href=gender.html>Migrants Comparison By Gender</a>
+    </div>
+</div>
+<div id="bar"></div>
+<script>
+    function myFunction() {
+        document.getElementById("myDropdown").classList.toggle("show");
+    }
+
+    var margin = {top: 20, right: 20, bottom: 30, left: 40},
+            width = 960 - margin.left - margin.right,
+            height = 500 - margin.top - margin.bottom;
+
+    var x0 = d3.scale.ordinal()
+            .rangeRoundBands([0, width], .1);
+
+    var x1 = d3.scale.ordinal();
+
+    var y = d3.scale.linear()
+            .range([height, 0]);
+
+    var color = d3.scale.ordinal()
+            .range(["#98abc5", "#6b486b"]);
+
+    var xAxis = d3.svg.axis()
+            .scale(x0)
+            .orient("bottom");
+
+    var yAxis = d3.svg.axis()
+            .scale(y)
+            .orient("left")
+            .tickFormat(d3.format(".2s"));
+
+    var svg = d3.select("#bar").append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+    d3.csv("Total_Destination.csv", function(error, data) {
+        if (error) throw error;
+
+        data = data.filter(function (column) {
+            return column['Destination'] == "Total";
+        });
+
+        var male_1990 = data.map(function (o) {
+            var r = "Male_1990";
+            return o[r];
+        });
+
+
+        var female_1990 = data.map(function (o) {
+            var r = "Female_1990";
+            return o[r];
+        });
+
+        var male_1995 = data.map(function (o) {
+            var r = "Male_1995";
+            return o[r];
+        });
+
+        var female_1995 = data.map(function (o) {
+            var r = "Female_1995";
+            return o[r];
+        });
+
+        var male_2000 = data.map(function (o) {
+            var r = "Male_2000";
+            return o[r];
+        });
+
+        var female_2000 = data.map(function (o) {
+            var r = "Female_2000";
+            return o[r];
+        });
+
+        var male_2005 = data.map(function (o) {
+            var r = "Male_2005";
+            return o[r];
+        });
+
+        var female_2005 = data.map(function (o) {
+            var r = "Female_2005";
+            return o[r];
+        });
+
+        var male_2010 = data.map(function (o) {
+            var r = "Male_2010";
+            return o[r];
+        });
+
+        var female_2010 = data.map(function (o) {
+            var r = "Female_2010";
+            return o[r];
+        });
+
+        var male_2015 = data.map(function (o) {
+            var r = "Male_2015";
+            return o[r];
+        });
+
+        var female_2015 = data.map(function (o) {
+            var r = "Female_2015";
+            return o[r];
+        });
+
+        var dataset = [{"Year": "1990", "Male": Number(male_1990) / 1000000, "Female": Number(female_1990) / 1000000},
+            {"Year": "1995", "Male": Number(male_1995) / 1000000, "Female": Number(female_1995) / 1000000},
+            {"Year": "2000", "Male": Number(male_2000) / 1000000, "Female": Number(female_2000) / 1000000},
+            {"Year": "2005", "Male": Number(male_2005) / 1000000, "Female": Number(female_2005) / 1000000},
+            {"Year": "2010", "Male": Number(male_2010) / 1000000, "Female": Number(female_2010) / 1000000},
+            {"Year": "2015", "Male": Number(male_2015) / 1000000, "Female": Number(female_2015) / 1000000}];
+
+        var ageNames = d3.keys(dataset[0]).filter(function(key) { return key !== "Year"; });
+
+        dataset.forEach(function(d) {
+            d.values = ageNames.map(function(name) { return {name: name, value: +d[name]}; });
+        });
+
+        x0.domain(dataset.map(function (d) {
+            return d.Year;
+        }));
+        x1.domain(ageNames).rangeRoundBands([0, x0.rangeBand()]);
+        y.domain([0, d3.max(dataset, function(d) { return d3.max(d.values, function(d) { return d.value; }); })])
+
+        svg.append("g")
+                .attr("class", "x axis")
+                .attr("transform", "translate(0," + height + ")")
+                .call(xAxis);
+
+        svg.append("g")
+                .attr("class", "y axis")
+                .call(yAxis)
+                .append("text")
+                .attr("transform", "rotate(-90)")
+                .attr("y", 6)
+                .attr("dy", ".71em")
+                .style("text-anchor", "end")
+                .text("Population(M)");
+
+        var state = svg.selectAll(".state")
+                .data(dataset)
+                .enter().append("g")
+                .attr("class", "state")
+                .attr("transform", function(d) { return "translate(" + x0(d.Year) + ",0)"; });
+
+        state.selectAll("rect")
+                .data(function(d) { return d.values; })
+                .enter().append("rect")
+                .attr("width", x1.rangeBand())
+                .attr("x", function(d) { return x1(d.name); })
+                .attr("y", function(d) { return y(d.value); })
+                .attr("height", function(d) { return height - y(d.value); })
+                .style("fill", function(d) { return color(d.name); });
+
+        state.selectAll(".bartext")
+                .data(function(d) { return d.values; })
+                .enter().append("text")
+                .attr("class", "bar")
+                .attr("text-anchor", "middle")
+                .attr("x", function (d) {
+                    return x1(d.name) + 33;
+                })
+                .attr("y", function (d) {
+                    return y(d.value) - 5;
+                })
+                .text(function (d) {
+                    return Math.round(d.value * 1000) / 1000 + 'M';
+                });
+
+
+        var legend = svg.selectAll(".legend")
+                .data(ageNames.slice().reverse())
+                .enter().append("g")
+                .attr("class", "legend")
+                .attr("transform", function(d, i) { return "translate(20," + i * 20 + ")"; });
+
+        legend.append("rect")
+                .attr("x", width - 18)
+                .attr("y", -17)
+                .attr("width", 18)
+                .attr("height", 18)
+                .style("fill", color);
+
+        legend.append("text")
+                .attr("x", width - 18)
+                .attr("y", -9)
+                .attr("dy", ".35em")
+                .style("text-anchor", "end")
+                .text(function(d) { return d; });
+
+
+    });
+
+</script>
+</body>
+</html>
