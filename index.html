@@ -115,13 +115,12 @@
     };
 
 
+    var format = function(d) {
+        d = d / 1000000;
+        return d3.format(',.02f')(d) + 'M';
+    }
 
-var format = function(d) {
-    d = d / 1000000;
-    return d3.format(',.02f')(d) + 'M';
-}
-
-var map = d3.geomap.choropleth()
+    var map = d3.geomap.choropleth()
         .geofile('d3-geomap-1.0.1/topojson/world/countries.json')
         .colors(colorbrewer.YlGnBu[9])
         .format(format)
@@ -279,7 +278,7 @@ var map = d3.geomap.choropleth()
     });
 
     d3.selectAll("input").on("change", function change() {
-        var value = this.value;
+            var value = this.value;
 
             switch (value) {
                 case "2015":

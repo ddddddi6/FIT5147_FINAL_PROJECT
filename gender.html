@@ -222,7 +222,15 @@
                 .data(dataset)
                 .enter().append("g")
                 .attr("class", "state")
-                .attr("transform", function(d) { return "translate(" + x0(d.Year) + ",0)"; });
+                .attr("transform", function(d) { return "translate(" + x0(d.Year) + ",0)"; })
+                .on("mouseover", function (d) {
+                    var selectthegraphs = $('.state').not(this);    //select all the rest of the bars, except the one you are hovering on and drop their opacity
+                    d3.selectAll(selectthegraphs)
+                            .style("opacity",0.2)})
+                .on("mouseout",	function(d) {        //undo everything on the mouseout
+                    var selectthegraphs = $('.state').not(this);
+                    d3.selectAll(selectthegraphs)
+                            .style("opacity",1)});
 
         state.selectAll("rect")
                 .data(function(d) { return d.values; })
