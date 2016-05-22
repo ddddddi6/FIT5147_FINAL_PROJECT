@@ -128,7 +128,7 @@
             .unitId('Country Code');
     var path = d3.geo.path();
 
-    d3.csv('Total_Destination.csv', function(error, data) {
+    d3.csv('Total_Origin.csv', function(error, data) {
         d3.select('#map')
                 .datum(data).call(map.draw, map)
                 .on("click", function (d) {
